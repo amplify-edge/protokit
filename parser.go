@@ -1,8 +1,8 @@
 package protokit
 
 import (
-	"github.com/golang/protobuf/protoc-gen-go/descriptor"
-	"github.com/golang/protobuf/protoc-gen-go/plugin"
+	"google.golang.org/protobuf/types/descriptorpb"
+	plugin_go "google.golang.org/protobuf/types/pluginpb"
 
 	"context"
 	"fmt"
@@ -40,6 +40,7 @@ const (
 func ParseCodeGenRequest(req *plugin_go.CodeGeneratorRequest) []*FileDescriptor {
 	allFiles := make(map[string]*FileDescriptor)
 	genFiles := make([]*FileDescriptor, len(req.GetFileToGenerate()))
+	
 
 	for _, pf := range req.GetProtoFile() {
 		allFiles[pf.GetName()] = parseFile(context.Background(), pf)
@@ -53,7 +54,7 @@ func ParseCodeGenRequest(req *plugin_go.CodeGeneratorRequest) []*FileDescriptor 
 	return genFiles
 }
 
-func parseFile(ctx context.Context, fd *descriptor.FileDescriptorProto) *FileDescriptor {
+func parseFile(ctx context.Context, fd *descriptorpb.FileDescriptorProto) *FileDescriptor {
 	comments := ParseComments(fd)
 
 	file := &FileDescriptor{
@@ -77,7 +78,7 @@ func parseFile(ctx context.Context, fd *descriptor.FileDescriptorProto) *FileDes
 	return file
 }
 
-func parseEnums(ctx context.Context, protos []*descriptor.EnumDescriptorProto) []*EnumDescriptor {
+func parseEnums(ctx context.Context, protos []*descriptorpb.EnumDescriptorProto) []*EnumDescriptor {
 	enums := make([]*EnumDescriptor, len(protos))
 	file, _ := FileDescriptorFromContext(ctx)
 	parent, hasParent := DescriptorFromContext(ctx)
@@ -108,7 +109,7 @@ func parseEnums(ctx context.Context, protos []*descriptor.EnumDescriptorProto) [
 	return enums
 }
 
-func parseEnumValues(ctx context.Context, protos []*descriptor.EnumValueDescriptorProto) []*EnumValueDescriptor {
+func parseEnumValues(ctx context.Context, protos []*descriptorpb.EnumValueDescriptorProto) []*EnumValueDescriptor {
 	values := make([]*EnumValueDescriptor, len(protos))
 	file, _ := FileDescriptorFromContext(ctx)
 	enum, _ := EnumDescriptorFromContext(ctx)
@@ -117,10 +118,10 @@ func parseEnumValues(ctx context.Context, protos []*descriptor.EnumValueDescript
 		longName := fmt.Sprintf("%s.%s", enum.GetLongName(), vd.GetName())
 
 		values[i] = &EnumValueDescriptor{
-			common: newCommon(file, "", longName),
+			common:                   newCommon(file, "", longName),
 			EnumValueDescriptorProto: vd,
-			Enum:     enum,
-			Comments: file.comments.Get(fmt.Sprintf("%s.%d.%d", enum.path, enumValueCommentPath, i)),
+			Enum:                     enum,
+			Comments:                 file.comments.Get(fmt.Sprintf("%s.%d.%d", enum.path, enumValueCommentPath, i)),
 		}
 		if vd.Options != nil {
 			values[i].setOptions(vd.Options)
@@ -130,7 +131,7 @@ func parseEnumValues(ctx context.Context, protos []*descriptor.EnumValueDescript
 	return values
 }
 
-func parseExtensions(ctx context.Context, protos []*descriptor.FieldDescriptorProto) []*ExtensionDescriptor {
+func parseExtensions(ctx context.Context, protos []*descriptorpb.FieldDescriptorProto) []*ExtensionDescriptor {
 	exts := make([]*ExtensionDescriptor, len(protos))
 	file, _ := FileDescriptorFromContext(ctx)
 	parent, hasParent := DescriptorFromContext(ctx)
@@ -185,7 +186,7 @@ func parseImports(fd *FileDescriptor, allFiles map[string]*FileDescriptor) {
 	}
 }
 
-func parseMessages(ctx context.Context, protos []*descriptor.DescriptorProto) []*Descriptor {
+func parseMessages(ctx context.Context, protos []*descriptorpb.DescriptorProto) []*Descriptor {
 	msgs := make([]*Descriptor, len(protos))
 	file, _ := FileDescriptorFromContext(ctx)
 	parent, hasParent := DescriptorFromContext(ctx)
@@ -219,7 +220,7 @@ func parseMessages(ctx context.Context, protos []*descriptor.DescriptorProto) []
 	return msgs
 }
 
-func parseMessageFields(ctx context.Context, protos []*descriptor.FieldDescriptorProto) []*FieldDescriptor {
+func parseMessageFields(ctx context.Context, protos []*descriptorpb.FieldDescriptorProto) []*FieldDescriptor {
 	fields := make([]*FieldDescriptor, len(protos))
 	file, _ := FileDescriptorFromContext(ctx)
 	message, _ := DescriptorFromContext(ctx)
@@ -241,7 +242,7 @@ func parseMessageFields(ctx context.Context, protos []*descriptor.FieldDescripto
 	return fields
 }
 
-func parseServices(ctx context.Context, protos []*descriptor.ServiceDescriptorProto) []*ServiceDescriptor {
+func parseServices(ctx context.Context, protos []*descriptorpb.ServiceDescriptorProto) []*ServiceDescriptor {
 	svcs := make([]*ServiceDescriptor, len(protos))
 	file, _ := FileDescriptorFromContext(ctx)
 
@@ -265,7 +266,7 @@ func parseServices(ctx context.Context, protos []*descriptor.ServiceDescriptorPr
 	return svcs
 }
 
-func parseServiceMethods(ctx context.Context, protos []*descriptor.MethodDescriptorProto) []*MethodDescriptor {
+func parseServiceMethods(ctx context.Context, protos []*descriptorpb.MethodDescriptorProto) []*MethodDescriptor {
 	methods := make([]*MethodDescriptor, len(protos))
 
 	file, _ := FileDescriptorFromContext(ctx)

@@ -1,9 +1,8 @@
 package protokit
 
 import (
-	"github.com/golang/protobuf/protoc-gen-go/descriptor"
-
 	"bytes"
+	descriptor "google.golang.org/protobuf/types/descriptorpb"
 	"strconv"
 	"strings"
 )
