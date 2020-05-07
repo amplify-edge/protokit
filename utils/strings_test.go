@@ -5,7 +5,7 @@ import (
 
 	"testing"
 
-	"github.com/getcouragenow/bootstrap/tool/protokit/utils"
+	"github.com/getcouragenow/protokit/utils"
 )
 
 type StringsTest struct {

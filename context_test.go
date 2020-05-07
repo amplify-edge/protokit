@@ -6,7 +6,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/getcouragenow/bootstrap/tool/protokit"
+	"github.com/getcouragenow/protokit"
 )
 
 type ContextTest struct {

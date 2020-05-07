@@ -9,8 +9,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/getcouragenow/bootstrap/tool/protokit"
-	"github.com/getcouragenow/bootstrap/tool/protokit/utils"
+	"github.com/getcouragenow/protokit"
+	"github.com/getcouragenow/protokit/utils"
 )
 
 type PluginTest struct {

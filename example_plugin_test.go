@@ -1,7 +1,7 @@
 package protokit_test
 
 import (
-	"github.com/getcouragenow/bootstrap/tool/protokit"
+	"github.com/getcouragenow/protokit"
 	"google.golang.org/protobuf/proto"
 	plugin_go "google.golang.org/protobuf/types/pluginpb"
 
