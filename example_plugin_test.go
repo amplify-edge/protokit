@@ -1,9 +1,9 @@
 package protokit_test
 
 import (
-	"github.com/golang/protobuf/proto"
-	"github.com/golang/protobuf/protoc-gen-go/plugin"
-	"github.com/pseudomuto/protokit"
+	"github.com/getcouragenow/protokit"
+	"google.golang.org/protobuf/proto"
+	plugin_go "google.golang.org/protobuf/types/pluginpb"
 
 	"log"
 )

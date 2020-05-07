@@ -2,10 +2,9 @@ package utils_test
 
 import (
 	"github.com/stretchr/testify/suite"
-
 	"testing"
 
-	"github.com/pseudomuto/protokit/utils"
+	"github.com/getcouragenow/protokit/utils"
 )
 
 type UtilsTest struct {
@@ -66,7 +65,7 @@ func (assert *UtilsTest) TestLoadDescriptorSetFileNotFound() {
 func (assert *UtilsTest) TestLoadDescriptorSetMarshalError() {
 	set, err := utils.LoadDescriptorSet("..", "fixtures", "todo.proto")
 	assert.Nil(set)
-	assert.EqualError(err, "proto: can't skip unknown wire type 7 for descriptor.FileDescriptorSet")
+	assert.EqualError(err, "proto: cannot parse reserved wire type")
 }
 
 func (assert *UtilsTest) TestLoadDescriptor() {
@@ -84,7 +83,7 @@ func (assert *UtilsTest) TestLoadDescriptorFileNotFound() {
 func (assert *UtilsTest) TestLoadDescriptorMarshalError() {
 	proto, err := utils.LoadDescriptor("todo.proto", "..", "fixtures", "todo.proto")
 	assert.Nil(proto)
-	assert.EqualError(err, "proto: can't skip unknown wire type 7 for descriptor.FileDescriptorSet")
+	assert.EqualError(err, "proto: cannot parse reserved wire type")
 }
 
 func (assert *UtilsTest) TestLoadDescriptorDescriptorNotFound() {

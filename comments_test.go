@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/pseudomuto/protokit"
-	"github.com/pseudomuto/protokit/utils"
+	"github.com/getcouragenow/protokit"
+	"github.com/getcouragenow/protokit/utils"
 )
 
 type CommentsTest struct {

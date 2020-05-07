@@ -1,14 +1,15 @@
 package protokit_test
 
 import (
-	"github.com/golang/protobuf/proto"
-	"github.com/golang/protobuf/protoc-gen-go/descriptor"
 	"github.com/stretchr/testify/suite"
+	preg "google.golang.org/protobuf/reflect/protoregistry"
+	pimpl "google.golang.org/protobuf/runtime/protoimpl"
+	descriptor "google.golang.org/protobuf/types/descriptorpb"
 
 	"testing"
 
-	"github.com/pseudomuto/protokit"
-	"github.com/pseudomuto/protokit/utils"
+	"github.com/getcouragenow/protokit"
+	"github.com/getcouragenow/protokit/utils"
 )
 
 var (
@@ -37,7 +38,7 @@ func (assert *ParserTest) SetupSuite() {
 }
 
 func registerTestExtensions() {
-	var E_ExtendFile = &proto.ExtensionDesc{
+	var E_ExtendFile = &pimpl.ExtensionInfo{
 		ExtendedType:  (*descriptor.FileOptions)(nil),
 		ExtensionType: (*bool)(nil),
 		Field:         20000,
@@ -46,7 +47,7 @@ func registerTestExtensions() {
 		Filename:      "extend.proto",
 	}
 
-	var E_ExtendService = &proto.ExtensionDesc{
+	var E_ExtendService = &pimpl.ExtensionInfo{
 		ExtendedType:  (*descriptor.ServiceOptions)(nil),
 		ExtensionType: (*bool)(nil),
 		Field:         20000,
@@ -55,7 +56,7 @@ func registerTestExtensions() {
 		Filename:      "extend.proto",
 	}
 
-	var E_ExtendMethod = &proto.ExtensionDesc{
+	var E_ExtendMethod = &pimpl.ExtensionInfo{
 		ExtendedType:  (*descriptor.MethodOptions)(nil),
 		ExtensionType: (*bool)(nil),
 		Field:         20000,
@@ -64,7 +65,7 @@ func registerTestExtensions() {
 		Filename:      "extend.proto",
 	}
 
-	var E_ExtendEnum = &proto.ExtensionDesc{
+	var E_ExtendEnum = &pimpl.ExtensionInfo{
 		ExtendedType:  (*descriptor.EnumOptions)(nil),
 		ExtensionType: (*bool)(nil),
 		Field:         20000,
@@ -73,7 +74,7 @@ func registerTestExtensions() {
 		Filename:      "extend.proto",
 	}
 
-	var E_ExtendEnumValue = &proto.ExtensionDesc{
+	var E_ExtendEnumValue = &pimpl.ExtensionInfo{
 		ExtendedType:  (*descriptor.EnumValueOptions)(nil),
 		ExtensionType: (*bool)(nil),
 		Field:         20000,
@@ -82,7 +83,7 @@ func registerTestExtensions() {
 		Filename:      "extend.proto",
 	}
 
-	var E_ExtendMessage = &proto.ExtensionDesc{
+	var E_ExtendMessage = &pimpl.ExtensionInfo{
 		ExtendedType:  (*descriptor.MessageOptions)(nil),
 		ExtensionType: (*bool)(nil),
 		Field:         20000,
@@ -91,7 +92,7 @@ func registerTestExtensions() {
 		Filename:      "extend.proto",
 	}
 
-	var E_ExtendField = &proto.ExtensionDesc{
+	var E_ExtendField = &pimpl.ExtensionInfo{
 		ExtendedType:  (*descriptor.FieldOptions)(nil),
 		ExtensionType: (*bool)(nil),
 		Field:         20000,
@@ -100,13 +101,13 @@ func registerTestExtensions() {
 		Filename:      "extend.proto",
 	}
 
-	proto.RegisterExtension(E_ExtendFile)
-	proto.RegisterExtension(E_ExtendService)
-	proto.RegisterExtension(E_ExtendMethod)
-	proto.RegisterExtension(E_ExtendEnum)
-	proto.RegisterExtension(E_ExtendEnumValue)
-	proto.RegisterExtension(E_ExtendMessage)
-	proto.RegisterExtension(E_ExtendField)
+	preg.GlobalTypes.RegisterExtension(E_ExtendFile)
+	preg.GlobalTypes.RegisterExtension(E_ExtendService)
+	preg.GlobalTypes.RegisterExtension(E_ExtendMethod)
+	preg.GlobalTypes.RegisterExtension(E_ExtendEnum)
+	preg.GlobalTypes.RegisterExtension(E_ExtendEnumValue)
+	preg.GlobalTypes.RegisterExtension(E_ExtendMessage)
+	preg.GlobalTypes.RegisterExtension(E_ExtendField)
 }
 
 func (assert *ParserTest) TestFileParsing() {
